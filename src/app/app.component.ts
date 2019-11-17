@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FileUploadState } from './store/models/file-upload.model';
 import * as ABC from './store/actions/file-upload.actions';
+import { FileUploadService } from './file-upload.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,12 @@ export class AppComponent {
   fileExtension: string;
   disabledBtn: boolean;
   image: File;
+  uploadErrorMsg: boolean;
 
-  constructor(private store: Store<FileUploadState>) {
+  constructor(private store: Store<FileUploadState>, private fileUploadService: FileUploadService) {
     this.fileExtension = 'image/*';
     this.disabledBtn = true;
+    this.uploadErrorMsg = false;
   }
 
   handleChange([ file ] : [ File ]) {
@@ -25,11 +28,16 @@ export class AppComponent {
 
   handleSubmit(e: any) {
     e.preventDefault();
-    console.log('submited!');
 
-    this.store.dispatch(
-      new ABC.UploadRequestAction({ file: this.image  })
-    );
+    // this.store.dispatch(
+    //   new ABC.UploadRequestAction({ file: this.image  })
+    // );
+
+    this.fileUploadService.uploadFile(this.image).subscribe(data => {
+      this.uploadErrorMsg = true;
+      }, error => {
+        console.log(error);
+      });
 
   }
 }

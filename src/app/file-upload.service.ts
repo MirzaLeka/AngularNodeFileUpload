@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -12,20 +13,49 @@ export class FileUploadService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public uploadFile (file: File): Observable<HttpEvent<{}>> {
+  // public uploadFile (file: File): Observable<HttpEvent<{}>> {
 
-    const formData = new FormData();
-    formData.append("files", file, file.name);
+  //   const { name: fileName } = file['payload'].file; 
 
-    const options = { reportProgress: true };
+  //   const formData = new FormData();
+  //   formData.append("image", file, fileName);
 
-    const req = new HttpRequest(
-      "POST",
-      `${this.API_BASE_URL}/upload`,
-      formData,
-      options
-    );
+  //   const options = { reportProgress: true };
+
+  //   const req = new HttpRequest(
+  //     "POST",
+  //     `${this.API_BASE_URL}/upload`,
+  //     formData,
+  //     options
+  //   );
     
-    return this.httpClient.request(req);
+  //   return this.httpClient.request(req);
+  // }
+
+  uploadFile(file: File): Observable<boolean> {
+
+    console.log(file);
+    console.log(file.name);
+
+    const endpoint = '/api/upload';
+    const formData: FormData = new FormData();
+
+    formData.append('name', file, file.name);
+
+    return this.httpClient.post<boolean>(endpoint, formData)
+    .pipe(
+      map(data => data),
+      catchError(error => this.handleError(error))
+    );
+
+      // .map(() => { return true; })
+      // .catchError((e) => this.handleError(e));
   }
+
+
+  handleError(error : string) : Observable<boolean> {
+    console.log(error);
+    return of(true);
+  }
+
 }

@@ -4,6 +4,7 @@ $white: #FFF;
 $green: forestgreen;
 $shadowColor: #CCC;
 $disabledColor: #555;
+$errorColor: #D50000;
 
 %applyShadow{
   -webkit-box-shadow: 3px 3px 5px 6px $shadowColor;
@@ -15,6 +16,10 @@ $disabledColor: #555;
   padding: 20px;
   max-width: 400px;
   @extend %applyShadow;
+}
+
+p{
+  color: $errorColor;
 }
 
 .upload__file__form{

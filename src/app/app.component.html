@@ -4,4 +4,5 @@
     <input class="upload__file__input" type="file" [accept]="fileExtension" (change)="handleChange($event.target.files)"/>
     <button class="upload__file__button" type="submit" [disabled]="disabledBtn" [ngClass]="!disabledBtn && 'active__button'">Upload</button>
   </form>
+  <p *ngIf="uploadErrorMsg">Something went wrong</p>
 </div>
