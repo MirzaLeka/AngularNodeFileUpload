@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { FileUploadState } from './store/models/file-upload.model';
 import * as ABC from './store/actions/file-upload.actions';
 import { FileUploadService } from './file-upload.service';
+import { UploadStartAction } from './store/actions/file-upload.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   disabledBtn: boolean;
   image: File;
   uploadErrorMsg: boolean;
+  response: any;
 
   constructor(private store: Store<FileUploadState>, private fileUploadService: FileUploadService) {
     this.fileExtension = 'image/*';
@@ -29,16 +31,21 @@ export class AppComponent {
   handleSubmit(e: any) {
     e.preventDefault();
 
+    this.store.dispatch(new UploadStartAction(this.image));
+
+    this.response = this.store.select(store => store.progress);
+    console.log(this.response);
+
     // this.store.dispatch(
     //   new ABC.UploadRequestAction({ file: this.image  })
     // );
 
-    this.fileUploadService.uploadFile(this.image).subscribe(data => {
-      console.log(data);
-      }, error => {
-        console.log(error);
-        this.uploadErrorMsg = true;
-      });
+    // this.fileUploadService.uploadFile(this.image).subscribe(data => {
+    //   console.log(data);
+    //   }, error => {
+    //     console.log(error);
+    //     this.uploadErrorMsg = true;
+    //   });
 
   }
 }
