@@ -23,6 +23,17 @@ app.post('/api/upload', imageUpload.single('image'), (req, res) => {
   }
 });
 
+// Download file
+app.get('/api/download', (req, res) => {
+  try {
+    const file = `${__dirname}/greeting.txt`;
+    res.download(file); 
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+
 // Error page
 app.get('*', (req, res) => {
   res.sendFile(join(distPath, '/index.html'));
