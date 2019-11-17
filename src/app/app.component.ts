@@ -6,5 +6,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'effects-file-upload';
+  fileExtension: string;
+  disabledBtn: boolean;
+
+  constructor() {
+    this.fileExtension = 'image/*';
+    this.disabledBtn = true;
+  }
+
+  handleChange([ file ] : [ File ]) {
+    this.disabledBtn = !file;
+  }
+
+  handleSubmit(e: any) {
+    e.preventDefault();
+    console.log('submited!');
+  }
 }

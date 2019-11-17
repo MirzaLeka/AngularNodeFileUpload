@@ -1,0 +1,47 @@
+
+$pageBackground: #F5F5F5; 
+$white: #FFF;
+$green: forestgreen;
+$shadowColor: #CCC;
+$disabledColor: #555;
+
+%applyShadow{
+  -webkit-box-shadow: 3px 3px 5px 6px $shadowColor;
+  -moz-box-shadow:    3px 3px 5px 6px $shadowColor;
+  box-shadow:         3px 3px 5px 6px $shadowColor;
+}
+
+.container{
+  padding: 20px;
+  max-width: 400px;
+  @extend %applyShadow;
+}
+
+.upload__file__form{
+  text-align: center;
+}
+
+.upload__file__input, .upload__file__button{
+  display: block;
+  margin-top: 20px;
+  &:focus{
+    outline: 0;
+  }
+}
+
+.upload__file__button{
+  background: $disabledColor;
+  border: 0;
+  height: 30px;
+  padding: 0 15px;
+  color: $white;
+  cursor: not-allowed;
+}
+
+.active__button{
+  background: $green;  
+  cursor: pointer;
+  &:hover{
+    background: darken($green, 5%);
+  }
+}
