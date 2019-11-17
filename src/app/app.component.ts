@@ -34,9 +34,10 @@ export class AppComponent {
     // );
 
     this.fileUploadService.uploadFile(this.image).subscribe(data => {
-      this.uploadErrorMsg = true;
+      console.log(data);
       }, error => {
         console.log(error);
+        this.uploadErrorMsg = true;
       });
 
   }

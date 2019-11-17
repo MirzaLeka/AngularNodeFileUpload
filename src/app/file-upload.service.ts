@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -40,11 +40,12 @@ export class FileUploadService {
     const endpoint = '/api/upload';
     const formData: FormData = new FormData();
 
-    formData.append('name', file, file.name);
+    formData.append('image', file, file.name);
 
     return this.httpClient.post<boolean>(endpoint, formData)
     .pipe(
-      map(data => data),
+      tap(data => console.log(data)),
+      map(data => data['originalname']),
       catchError(error => this.handleError(error))
     );
 
